@@ -1,5 +1,5 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
-   , bgColor = "black"
+Config { font = "xft:DejaVu Sans Mono-8.5:bold"
+      , bgColor = "black"
       , fgColor = "grey"
       , position = TopW L 90
       , lowerOnStart = True
