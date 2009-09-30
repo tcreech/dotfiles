@@ -59,7 +59,7 @@ alias f=finger
 alias ll='ls -l'
 
 # Set up alias for ls for some color:
-if [ `ls --color 2> /dev/null 1> /dev/null && echo true` = "true" ]; then
+if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
    # We are using GNU ls.
    alias ls='ls --color=auto '
 else
