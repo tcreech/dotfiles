@@ -247,8 +247,15 @@ vimfind(){
         vim -p `gfind $*`
 }
 
-TRAPUSR2() {
-   [ -f ~/.sh-sourceall ] && . ~/.sh-sourceall
+# On USR2, source a file. Used for global-export.
+TRAPUSR2(){
+   [ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
+}
+
+# Export to /all/ instances of zsh that I can send USR2 to.
+global_export(){
+   echo "export $*" > ~/.global_export_tmp
+   killall -USR2 zsh
 }
 
 # This must be the end of the file. Connects to or creates a screen session.
