@@ -258,6 +258,9 @@ globalexport(){
    killall -USR2 zsh
 }
 
+# On startup, catch up with at least the last gobal export if one exists.
+[ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
+
 # This must be the end of the file. Connects to or creates a screen session.
 if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
    echo -n "Sup. Connecting to screen session (^C to skip) in 2" && \
