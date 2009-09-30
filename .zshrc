@@ -247,6 +247,11 @@ vimfind(){
         vim -p `gfind $*`
 }
 
+TRAPUSR2() {
+   [ -f ~/.sh-sourceall ] && . ~/.sh-sourceall
+}
+
+# This must be the end of the file. Connects to or creates a screen session.
 if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
    echo -n "Sup. Connecting to screen session (^C to skip) in 2" && \
    sleep 0.25 && \
