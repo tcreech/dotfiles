@@ -239,8 +239,25 @@ vimfind(){
 }
 
 if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
-   export SCREEN_EXIST=1
-   screen -DR
+   echo -n "Sup. Connecting to screen session (^C to skip) in 2" && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "1" && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "." && \
+   sleep 0.25 && \
+   echo -n "." && \
+   export SCREEN_EXIST=1 && \
+   screen -DR && \
    exit
 fi
 
