@@ -57,7 +57,16 @@ alias slrn="slrn -n"
 alias man='LC_ALL=C LANG=C man'
 alias f=finger
 alias ll='ls -l'
-alias ls='ls --color=auto '
+
+# Set up alias for ls for some color:
+if [ `ls --color 2> /dev/null 1> /dev/null && echo true` = "true" ]; then
+   # We are using GNU ls.
+   alias ls='ls --color=auto '
+else
+   # Assuming we are using BSD ls.
+   alias ls='ls -G '
+fi
+
 alias offlineimap-tty='offlineimap -u TTY.TTYUI'
 alias hnb-partecs='hnb $HOME/partecs/partecs-hnb.xml'
 alias rest2html-css='rst2html --embed-stylesheet --stylesheet-path=/usr/share/python-docutils/s5_html/themes/default/print.css'
