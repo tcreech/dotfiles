@@ -266,7 +266,7 @@ if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
    sleep 0.25 && \
    echo -n "." && \
    export SCREEN_EXIST=1 && \
-   screen -DR && \
+   screen -s zsh -DR && \
    exit
 fi
 
