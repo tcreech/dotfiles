@@ -255,7 +255,7 @@ TRAPUSR2(){
 # Export to /all/ instances of zsh that I can send USR2 to.
 globalexport(){
    echo "export $*" > ~/.global_export_tmp
-   chmod 400 ~/.global_export_tmp
+   chmod 600 ~/.global_export_tmp
    killall -USR2 zsh
 }
 
