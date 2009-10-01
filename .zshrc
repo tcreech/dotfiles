@@ -254,8 +254,11 @@ TRAPUSR2(){
 
 # Export to /all/ instances of zsh that I can send USR2 to.
 globalexport(){
-   echo "export $*" > ~/.global_export_tmp
+   echo > ~/.global_export_tmp
+   # This is done before anything goes into the file so that
+   #   there is no chance of it being readable by other users.
    chmod 600 ~/.global_export_tmp
+   echo "export $*" >> ~/.global_export_tmp
    killall -USR2 zsh
 }
 
@@ -263,7 +266,8 @@ globalexport(){
 #  a screen session entry and push it out to all of the user's
 #  zsh instances. Note that this may not be desirable in all
 #  cases, such as if you need multiple instances of ssh authentication
-#  forwarding to exist simultaneously.
+#  forwarding to exist simultaneously. In particular, if this account
+#  is used by multiple users, then this can be pretty lame.
 globalgetauth(){
    [ -f ~/.last_ssh_auth ] && globalexport `cat ~/.last_ssh_auth`
 }
@@ -290,7 +294,7 @@ if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
       echo -n "." && \
       sleep 0.25 && \
    done
-   [ -n "$ORIGINAL_SSH_AUTH_SOCK" ] && echo "SSH_AUTH_SOCK=$ORIGINAL_SSH_AUTH_SOCK" > .last_ssh_auth && \
+   ([ -n "$ORIGINAL_SSH_AUTH_SOCK" ] && echo > ~/.last_ssh_auth && chmod 600 ~/.last_ssh_auth && echo "SSH_AUTH_SOCK=$ORIGINAL_SSH_AUTH_SOCK" > ~/.last_ssh_auth || true ) && \
    export SCREEN_EXIST=1 && \
    screen -s zsh -DR && \
    exit
