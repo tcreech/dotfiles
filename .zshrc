@@ -1,10 +1,10 @@
 
 setopt INC_APPEND_HISTORY SHARE_HISTORY
 setopt APPEND_HISTORY
-unsetopt BG_NICE		# do NOT nice bg commands
-setopt CORRECT			# command CORRECTION
-setopt EXTENDED_HISTORY		# puts timestamps in the history
-#setopt MENUCOMPLETE    # <-- lame.
+unsetopt BG_NICE                # do NOT nice bg commands
+setopt CORRECT                  # command CORRECTION
+setopt EXTENDED_HISTORY         # puts timestamps in the history
+#setopt MENUCOMPLETE            # <-- lame.
 setopt ALL_EXPORT
 setopt   notify globdots correct pushdtohome cdablevars autolist
 setopt   correctall autocd recexact longlistjobs
@@ -73,10 +73,10 @@ alias rest2html-css='rst2html --embed-stylesheet --stylesheet-path=/usr/share/py
 alias vim='vim -X '
 alias xtest='xlogo& ; sleep 1;killall xlogo'
 #if [[ $HOSTNAME == "kamna" ]] {
-#	alias emacs='emacs -l ~/.emacs.kamna'
-#}	
+#       alias emacs='emacs -l ~/.emacs.kamna'
+#}
 
-# alias	=clear
+# alias =clear
 
 #chpwd() {
 #     [[ -t 1 ]] || return
