@@ -266,21 +266,16 @@ globalexport(){
 if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
    echo -n "Sup. Connecting to screen session (^C to skip) in 2" && \
    sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
+   for i in {1..3}; do
+      echo -n "." && \
+      sleep 0.25 && \
+   done
    echo -n "1" && \
    sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
-   echo -n "." && \
-   sleep 0.25 && \
-   echo -n "." && \
+   for i in {1..3}; do
+      echo -n "." && \
+      sleep 0.25 && \
+   done
    export SCREEN_EXIST=1 && \
    screen -s zsh -DR && \
    exit
