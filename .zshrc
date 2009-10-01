@@ -247,6 +247,13 @@ vimfind(){
         vim -p `gfind $*`
 }
 
+# Function to configure a git repository to show colors.
+git-enable-color(){
+         git config --global color.diff auto
+         git config --global color.status auto
+         git config --global color.branch auto
+}
+
 # On USR2, source a file. Used for global-export.
 TRAPUSR2(){
    [ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
