@@ -259,6 +259,20 @@ globalexport(){
    killall -USR2 zsh
 }
 
+# Function to quickly grab the last SSH_AUTH_SOCK available on
+#  a screen session entry and push it out to all of the user's
+#  zsh instances. Note that this may not be desirable in all
+#  cases, such as if you need multiple instances of ssh authentication
+#  forwarding to exist simultaneously.
+globalgetauth(){
+   [ -f ~/.last_ssh_auth ] && globalexport `cat ~/.last_ssh_auth`
+}
+
+# Get any legitimately set SSH_AUTH_SOCK in case .global_export_tmp
+#  clobbers it below. Only grab it if we're a zsh instance outside
+#  of screen.
+[ -z "$SCREEN_EXIST" ] && ORIGINAL_SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+
 # On startup, catch up with at least the last gobal export if one exists.
 [ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
 
@@ -276,6 +290,7 @@ if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
       echo -n "." && \
       sleep 0.25 && \
    done
+   [ -n "$ORIGINAL_SSH_AUTH_SOCK" ] && echo "SSH_AUTH_SOCK=$ORIGINAL_SSH_AUTH_SOCK" > .last_ssh_auth && \
    export SCREEN_EXIST=1 && \
    screen -s zsh -DR && \
    exit
