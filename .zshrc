@@ -278,7 +278,8 @@ globalgetauth(){
 [ -z "$SCREEN_EXIST" ] && ORIGINAL_SSH_AUTH_SOCK=$SSH_AUTH_SOCK
 
 # On startup, catch up with at least the last gobal export if one exists.
-[ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
+# But only do this if we are inside screen.
+[ -n "$SCREEN_EXIST" ] && [ -f ~/.global_export_tmp ] && . ~/.global_export_tmp
 
 # This must be the end of the file. Connects to or creates a screen session.
 if [ -n "$SSH_CONNECTION" ] && [ -z "$SCREEN_EXIST" ]; then
