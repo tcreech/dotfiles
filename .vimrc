@@ -16,6 +16,8 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%0
 set laststatus=2
 au BufReadPost,FileReadPost * syntax match Tab /	/
 hi Tab gui=underline guifg=blue ctermbg=blue
+filetype plugin indent on
+syntax enable
 
 :source $VIMRUNTIME/menu.vim
 :set wildmenu
