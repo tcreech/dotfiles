@@ -160,7 +160,7 @@ zstyle ':completion:*:processes-names' command 'ps axho command'
 # 1. All /etc/hosts hostnames are in autocomplete
 # 2. If you have a comment in /etc/hosts like #%foobar.domain,
 #    then foobar.domain will show up in autocomplete!
-zstyle ':completion:*' hosts $(awk '/^[^#]/ {print $2 $3" "$4" "$5}' /etc/hosts | grep -v ip6- && grep "^#%" /etc/hosts | awk -F% '{print $2}') 
+zstyle ':completion:*' hosts $(awk '/^[^#]/ {print $3 }' /etc/hosts | grep -v ip6- && grep "^#%" /etc/hosts | awk -F% '{print $2}') 
 # Filename suffixes to ignore during completion (except after rm command)
 zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
     '*?.old' '*?.pro'
