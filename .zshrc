@@ -130,7 +130,7 @@ setcrapimightnotneed() {
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
        # We are using GNU ls.
-       alias ls='ls --color=auto --group-directories-first '
+       alias ls='ls --color=auto '
     else
        # Assuming we are using BSD ls.
        alias ls='ls -G '
