@@ -27,6 +27,20 @@ function precmd {
         PR_PWDCOLOR="${PR_BOLD_YELLOW}"
     fi  
 
+    # now let's change the color of the hostname if this is a remote shell
+    if [ "no$SSH_CONNECTION" = "no" ]; then
+        PR_HOSTCOLOR="${PR_BOLD_DEFAULT}"
+    else
+        PR_HOSTCOLOR="${PR_BOLD_GREEN}"
+    fi  
+    #
+    # now let's change the color of the user name if we are root
+    if [ "$USER" = "root" ]; then
+        PR_USERCOLOR="${PR_BOLD_RED}"
+    else
+        PR_USERCOLOR="${PR_BOLD_DEFAULT}"
+    fi  
+
     # set a simple variable to show when in screen
     if [[ -n "${WINDOW}" ]]; then
         PR_SCREEN=" screen:${WINDOW}"
@@ -315,7 +329,7 @@ setprompt () {
 %D{%R.%S %a %b %d %Y}${PR_RED}|${PR_PWDCOLOR}%${PR_PWDLEN}<...<%~%<<\
 
 ${PR_BOLD_RED}<${PR_RED}<${PR_BOLD_BLACK}<\
-${PR_BOLD_DEFAULT} %n@%m${PR_RED}|${PR_BOLD_DEFAULT}%h${PR_BOLD_RED}\
+${PR_BOLD_DEFAULT} ${PR_USERCOLOR}%n${PR_BOLD_DEFAULT}@${PR_HOSTCOLOR}%m${PR_RED}|${PR_BOLD_DEFAULT}%h${PR_BOLD_RED}\
 %(?.. exit:%?)${PR_BOLD_BLUE}${PR_SCREEN}${PR_JOBS}${PR_VCS}${PR_BATTERY}\
 ${PR_BOLD_BLUE}${VIMODE}\
 
