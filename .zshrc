@@ -22,9 +22,9 @@ function precmd {
 
     # now let's change the color of the path if it's not writable
     if [[ -w $PWD ]]; then
-        PR_PWDCOLOR="${PR_BOLD_DEFAULT}"
+        PR_PWDCOLOR="${PR_BOLD_GREEN}"
     else
-        PR_PWDCOLOR="${PR_BOLD_YELLOW}"
+        PR_PWDCOLOR="${PR_BOLD_RED}"
     fi  
 
     # now let's change the color of the hostname if this is a remote shell
