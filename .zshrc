@@ -111,6 +111,7 @@ setcrapimightnotneed() {
     alias cp='nocorrect cp '
     alias rm='nocorrect rm '
     alias mkdir='nocorrect mkdir '
+    alias locate='nocorrect locate '
     
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
