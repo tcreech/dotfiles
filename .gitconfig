@@ -6,15 +6,15 @@
 	status = auto
 	branch = auto
 [color "branch"]
-        current = yellow reverse
-        local = yellow
+        current = blue reverse
+        local = blue
         remote = green
 [color "diff"]
-        meta = yellow bold
+        meta = blue bold
         frag = magenta bold
         old = red bold
         new = green bold
 [color "status"]
-        added = yellow
-        changed = green
+        added = green
+        changed = red
         untracked = cyan

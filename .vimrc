@@ -44,3 +44,4 @@ endif
 
 " finally, select my fav color scheme
 colors ron
+highlight Normal ctermbg=black ctermfg=gray
