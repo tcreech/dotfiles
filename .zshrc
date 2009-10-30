@@ -28,6 +28,8 @@ function precmd {
     fi  
 
     # now let's change the color of the hostname if this is a remote shell
+    # (this may require 'Defaults    env_keep = "SSH_CONNECTION"' in sudoers
+    #   for this to work after something like 'sudo -s'.)
     if [ "no$SSH_CONNECTION" = "no" ]; then
         PR_HOSTCOLOR="${PR_BOLD_DEFAULT}"
     else
