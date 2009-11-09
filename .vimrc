@@ -5,9 +5,9 @@ syntax on
 se nu
 
 " set up tabs (these are tailored toward RTM coding conventions)
-set tabstop=8
+set tabstop=3
 set expandtab
-set smarttab
+" set smarttab
 set shiftwidth=3
 set shiftround
 set autoindent
@@ -16,11 +16,11 @@ set autoindent
 " spotted and removed.
 au InsertEnter,BufReadPost,FileReadPost * match ExtraWhiteSpace /\s\+\%#\@<!$/
 au InsertLeave * match ExtraWhiteSpace /\s\+$/
-au BufReadPost,FileReadPost * match Tab /	/
+" au BufReadPost,FileReadPost * match Tab /	/
 highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-highlight Tab ctermbg=blue guibg=blue
+" highlight Tab ctermbg=blue guibg=blue
 autocmd ColorScheme * highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-autocmd ColorScheme * highlight Tab ctermbg=blue guibg=blue
+" autocmd ColorScheme * highlight Tab ctermbg=blue guibg=blue
 
 " Make a menu available with F4 even without X, so that certain plugins can be
 " used.
@@ -45,3 +45,4 @@ endif
 " finally, select my fav color scheme
 colors ron
 highlight Normal ctermbg=black ctermfg=gray
+
