@@ -284,7 +284,7 @@ setcrapimightnotneed() {
     alias gf='gfind '
 
     ttree(){ 
-            tree -CA $* | less -XFr
+            tree --charset=utf8 -C $* | less -XFr
     }
     
     # Function to find/open files quickly for editing in vim
