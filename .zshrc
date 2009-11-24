@@ -2,11 +2,11 @@
 # License: in the public domain
 # Update: Oct 14, 2009
 function precmd {
-    # Get version control information for several version control backends
-#    autoload -Uz vcs_info; vcs_info
-#    zstyle ':vcs_info:*' formats ' %s:%b'
-#    PR_VCS="${vcs_info_msg_0_}"
-    PR_VCS=""
+# Get version control information for several version control backends
+    autoload -Uz vcs_info; vcs_info
+    zstyle ':vcs_info:*' formats ' %s:%b'
+    PR_VCS="${vcs_info_msg_0_}"
+#    PR_VCS=""
 
     # The following 9 lines of code comes directly from Phil!'s ZSH prompt
     # http://aperiodic.net/phil/prompt/
