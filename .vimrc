@@ -3,6 +3,8 @@ filetype plugin indent on
 syntax enable
 syntax on
 se nu
+set visualbell
+set autochdir
 
 " set up tabs (these are tailored toward RTM coding conventions)
 set tabstop=3
