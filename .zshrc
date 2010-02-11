@@ -133,6 +133,7 @@ setcrapimightnotneed() {
        alias ls='ls --color=auto '
     else
        # Assuming we are using BSD ls.
+       export LSCOLORS="ExGxcxdxCxegedabagacad"
        alias ls='ls -G '
     fi
 
