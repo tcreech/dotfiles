@@ -11,18 +11,6 @@ function precmd {
     # Initially set VIMODE.
     VIMODE="${${KEYMAP/vicmd/ vim:command}/(main|viins)}"
 
-    # The following 9 lines of code comes directly from Phil!'s ZSH prompt
-    # http://aperiodic.net/phil/prompt/
-    local TERMWIDTH
-    (( TERMWIDTH = ${COLUMNS} - 1 ))
-
-    local PROMPTSIZE=${#${(%):--- %D{%R.%S %a %b %d %Y}\! }}
-    local PWDSIZE=${#${(%):-%~}}
-
-    if [[ "$PROMPTSIZE + $PWDSIZE" -gt $TERMWIDTH ]]; then
-        (( PR_PWDLEN = $TERMWIDTH - $PROMPTSIZE ))
-    fi
-
     # now let's change the color of the path if it's not writable
     if [[ -w $PWD ]]; then
         PR_PWDCOLOR="${PR_BOLD_GREEN}"
@@ -343,6 +331,10 @@ setprompt () {
     eval PR_DEFAULT='%{$fg_no_bold[default]%}'
 
     # Finally, let's set the prompt
+
+    # Determine here how much space we'll allow the working directory to consume.
+    (( PR_PWDLEN = $COLUMNS / 6 ))
+
     PROMPT='${PR_DEFAULT}[\
 ${PR_BOLD_DEFAULT}${PR_USERCOLOR}%n${PR_BOLD_DEFAULT}@${PR_HOSTCOLOR}%U%m%u${PR_DEFAULT}:${PR_PWDCOLOR}%${PR_PWDLEN}<...<%~%<<\
 ${PR_DEFAULT}]%(!.#.$)\
