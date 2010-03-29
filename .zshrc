@@ -2,11 +2,14 @@
 # License: in the public domain
 # Update: Oct 14, 2009
 function precmd {
-# Get version control information for several version control backends
-    autoload -Uz vcs_info; vcs_info
-    zstyle ':vcs_info:*' formats ' %s:%b'
-    PR_VCS="${vcs_info_msg_0_}"
-#    PR_VCS=""
+    # Get version control information for several version control backends
+    #autoload -Uz vcs_info; vcs_info
+    #zstyle ':vcs_info:*' formats ' %s:%b'
+    #PR_VCS="${vcs_info_msg_0_}"
+    PR_VCS=""
+
+    # Initially set VIMODE.
+    VIMODE="${${KEYMAP/vicmd/ vim:command}/(main|viins)}"
 
     # The following 9 lines of code comes directly from Phil!'s ZSH prompt
     # http://aperiodic.net/phil/prompt/
@@ -38,7 +41,7 @@ function precmd {
     if [ "$USER" = "root" ]; then
         PR_USERCOLOR="${PR_BOLD_RED}"
     else
-        PR_USERCOLOR="${PR_BOLD_DEFAULT}"
+        PR_USERCOLOR="${PR_BOLD_BLUE}"
     fi  
 
     # set a simple variable to show when in screen
@@ -78,7 +81,8 @@ function precmd {
 # From http://zshwiki.org/home/examples/zlewidgets
 zle-keymap-select() {
     VIMODE="${${KEYMAP/vicmd/ vim:command}/(main|viins)}"
-    RPROMPT2="${PR_BOLD_BLUE}${VIMODE}"
+    # This doesn't seem to work for now...
+    RPROMPT2="${PR_BOLD_BLUE}\${VIMODE}${PR_DEFAULT}"
     zle reset-prompt
 }
 
@@ -106,7 +110,7 @@ setcrapimightnotneed() {
     zmodload -a zsh/zpty zpty
     zmodload -a zsh/zprof zprof
     zmodload -a zsh/mapfile mapfile
-    PATH="$HOME/bin:$HOME/myStuff/bin:$HOME/opt/bin:/usr/local/bin:/usr/local/sbin/:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
+    PATH="$HOME/bin:$HOME/myStuff/bin:$HOME/opt/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
     TZ="America/New_York"
     HISTFILE=$HOME/.zhistory
     HISTSIZE=1000
@@ -116,6 +120,7 @@ setcrapimightnotneed() {
     EDITOR='vim'
     LC_ALL='en_US.UTF-8'
     LANG='en_US.UTF-8'
+    MPD_HOST=password@hostname
     unsetopt ALL_EXPORT
 
     # Aliases
@@ -250,6 +255,13 @@ setcrapimightnotneed() {
     # Directory in which to store shortcut dirs
     #  (just a mess of symlinks.)
     DIRDIR=$HOME/.dirs
+
+    rmplayer(){
+            typeset COUNT=$1
+            shift
+            randomfile $COUNT | xargs --null mplayer $*
+    }
+
     # Function to add shortcut dirs
     tmkdir(){
             mkdir -p $DIRDIR
@@ -328,23 +340,18 @@ setprompt () {
         eval PR_BOLD_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
     done
     eval PR_BOLD_DEFAULT='%{$fg_bold[default]%}'
+    eval PR_DEFAULT='%{$fg_no_bold[default]%}'
 
     # Finally, let's set the prompt
-    PROMPT='${PR_BOLD_RED}<${PR_RED}<${PR_BOLD_BLACK}<${PR_BOLD_DEFAULT} \
-%D{%R.%S %a %b %d %Y}${PR_RED}|${PR_PWDCOLOR}%${PR_PWDLEN}<...<%~%<<\
-
-${PR_BOLD_RED}<${PR_RED}<${PR_BOLD_BLACK}<\
-${PR_BOLD_DEFAULT} ${PR_USERCOLOR}%n${PR_BOLD_DEFAULT}@${PR_HOSTCOLOR}%m${PR_RED}|${PR_BOLD_DEFAULT}%h${PR_BOLD_RED}\
-%(?.. exit:%?)${PR_BOLD_BLUE}${PR_SCREEN}${PR_JOBS}${PR_VCS}${PR_BATTERY}\
-${PR_BOLD_BLUE}${VIMODE}\
-
-${PR_BOLD_BLACK}>${PR_GREEN}>${PR_BOLD_GREEN}>\
+    PROMPT='${PR_DEFAULT}[\
+${PR_BOLD_DEFAULT}${PR_USERCOLOR}%n${PR_BOLD_DEFAULT}@${PR_HOSTCOLOR}%U%m%u${PR_DEFAULT}:${PR_PWDCOLOR}%${PR_PWDLEN}<...<%~%<<\
+${PR_DEFAULT}]%(!.#.$)\
 %{${reset_color}%} '
+    RPROMPT="$PR_DEFAULT(${PR_BOLD_RED}%(?.. exit:%?)${PR_BOLD_BLUE}\${PR_SCREEN}\${PR_JOBS}\${PR_VCS}\${PR_BATTERY}\
+${PR_BOLD_BLUE}\${VIMODE} $PR_BOLD_YELLOW%D{%m/%d %H:%M}$PR_DEFAULT )"
 
     # Of course we need a matching continuation prompt
-    PROMPT2='${PR_BOLD_BLACK}>${PR_GREEN}>${PR_BOLD_GREEN}>\
-${PR_BOLD_DEFAULT} %_ ${PR_BOLD_BLACK}>${PR_GREEN}>\
-${PR_BOLD_GREEN}>%{${reset_color}%} '
+    PROMPT2='${PR_BOLD_DEFAULT} ...%_:%{${reset_color}%} '
 }
 
 setcrapimightnotneed
