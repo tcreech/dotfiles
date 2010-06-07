@@ -119,7 +119,8 @@ setcrapimightnotneed() {
     alias rm='nocorrect rm '
     alias mkdir='nocorrect mkdir '
     alias locate='nocorrect locate '
-    
+    alias gcalcli='gcalcli --width $(( $(( $COLUMNS - 8 )) / 7 )) '
+
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
        # We are using GNU ls.
@@ -247,7 +248,7 @@ setcrapimightnotneed() {
     rmplayer(){
             typeset COUNT=$1
             shift
-            randomfile $COUNT | xargs --null mplayer $*
+            randomfile $COUNT | xargs -0 mplayer $*
     }
 
     # Function to add shortcut dirs
