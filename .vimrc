@@ -4,7 +4,11 @@ syntax enable
 syntax on
 se nu
 set visualbell
-set autochdir
+if has("autochdir")
+   set autochdir
+endif
+
+set gfn=Terminus\ Medium:h14
 
 " set up tabs (these are tailored toward RTM coding conventions)
 set tabstop=3
@@ -45,6 +49,11 @@ if version >= 700
 endif
 
 " finally, select my fav color scheme
-colors ron
+if has("gui")
+   colors wombat
+else
+   colors ron
+endif
+
 highlight Normal ctermbg=black ctermfg=gray
 
