@@ -1,7 +1,31 @@
 # Aaron Toponce's ZSH prompt
 # License: in the public domain
 # Update: Oct 14, 2009
+#
+function preexec() {
+    if type growlnotify > /dev/null 2> /dev/null; then 
+       zsh_growl_cmd=$1
+       zsh_growl_time=`date +%s`
+    fi
+}
+
 function precmd {
+
+    # Display a growl message if the last job took long enough.
+    if type growlnotify > /dev/null 2> /dev/null; then
+        if (( $? == 0 )); then
+            zsh_growl_status=done
+        else
+            zsh_growl_status=fail
+        fi
+        if [[ "${zsh_growl_cmd}" != "" ]]; then
+            if (( `date +%s` - ${zsh_growl_time} > 10 )); then
+                growlnotify -m ${zsh_growl_cmd} ${zsh_growl_status}
+            fi
+        fi
+        zsh_growl_cmd=
+    fi
+
     # Get version control information for several version control backends
     #autoload -Uz vcs_info; vcs_info
     #zstyle ':vcs_info:*' formats ' %s:%b'
@@ -120,6 +144,7 @@ setcrapimightnotneed() {
     alias mkdir='nocorrect mkdir '
     alias locate='nocorrect locate '
     alias gcalcli='gcalcli --width $(( $(( $COLUMNS - 8 )) / 7 )) '
+    alias hgrep='history 1 | grep --color '
 
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
@@ -241,6 +266,35 @@ setcrapimightnotneed() {
     bindkey -M vicmd v edit-command-line
     
     alias ct='/opt/rational/clearcase/bin/cleartool '
+
+    # Function to start a master ssh session for a given list of user/host.
+    sshprep(){
+       for i in $*; do
+          ssh -Nf $i || echo "WARNING: Prep for $i failed."
+       done
+    }
+
+    # Function to wrap a sticky growl notification around a job
+    # ("Notify When Done")
+    nwd(){
+      if type growlnotify > /dev/null 2> /dev/null; then
+
+         zsh_growl_nwd_cmd=$( echo $zsh_growl_cmd | cut -d\  -f 2-)
+
+         eval "$zsh_growl_nwd_cmd"
+
+         if (( $? == 0 )); then
+               zsh_growl_status=Success
+         else
+               zsh_growl_status="Failure ($?)"
+         fi
+         if [[ "${zsh_growl_cmd}" != "" ]]; then
+                  growlnotify -s -m "${zsh_growl_nwd_cmd}" "ZSH Job Alert: $zsh_growl_status"
+         fi
+         zsh_growl_cmd=
+      fi
+    }
+
     # Directory in which to store shortcut dirs
     #  (just a mess of symlinks.)
     DIRDIR=$HOME/.dirs
@@ -265,7 +319,7 @@ setcrapimightnotneed() {
                     builtin cd $1;
                 else 
                     # echo "step back: being magical..."
-                    builtin cd `readlink $DIRDIR/$1`
+                    builtin cd "`readlink $DIRDIR/$1`"
                 fi
             fi
     }
