@@ -71,21 +71,21 @@ function precmd {
     fi
 
     # I want to know my battery percentage when running on battery power
-    if which acpi &> /dev/null; then
-        local BATTSTATE="$(acpi -b)"
-        local BATTPRCNT="$(echo ${BATTSTATE[(w)4]}|sed -r 's/(^[0-9]+).*/\1/')"
-        if [[ -z "${BATTPRCNT}" ]]; then
-            PR_BATTERY=""
-        elif [[ "${BATTPRCNT}" -lt 15 ]]; then
-            PR_BATTERY="${PR_BOLD_RED} batt:${BATTPRCNT}%%"
-        elif [[ "${BATTPRCNT}" -lt 50 ]]; then
-            PR_BATTERY="${PR_BOLD_YELLOW} batt:${BATTPRCNT}%%"
-        elif [[ "${BATTPRCNT}" -lt 96 ]]; then
-            PR_BATTERY=" batt:${BATTPRCNT}%%"
-        else
-            PR_BATTERY=""
-        fi
-    fi
+    #if which acpi &> /dev/null; then
+    #    local BATTSTATE="$(acpi -b)"
+    #    local BATTPRCNT="$(echo ${BATTSTATE[(w)4]}|sed -r 's/(^[0-9]+).*/\1/')"
+    #    if [[ -z "${BATTPRCNT}" ]]; then
+    #        PR_BATTERY=""
+    #    elif [[ "${BATTPRCNT}" -lt 15 ]]; then
+    #        PR_BATTERY="${PR_BOLD_RED} batt:${BATTPRCNT}%%"
+    #    elif [[ "${BATTPRCNT}" -lt 50 ]]; then
+    #        PR_BATTERY="${PR_BOLD_YELLOW} batt:${BATTPRCNT}%%"
+    #    elif [[ "${BATTPRCNT}" -lt 96 ]]; then
+    #        PR_BATTERY=" batt:${BATTPRCNT}%%"
+    #    else
+    #        PR_BATTERY=""
+    #    fi
+    #fi
 }
 
 # If I am using vi keys, I want to know what mode I'm currently using.
@@ -123,6 +123,11 @@ setcrapimightnotneed() {
     zmodload -a zsh/zprof zprof
     zmodload -a zsh/mapfile mapfile
     PATH="$HOME/bin:$HOME/myStuff/bin:$HOME/opt/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
+    PATH="$PATH:/opt/OPERA-MDE-2.1.0/bin"
+    PYTHONPATH=$HOME/opt/lib/python:$PYTHONPATH:$HOME/opt/lib/python2.6/site-packages
+    # The ":" in MANPATH is important: it tells manpath (1) to prepend $MANPATH to what it generates.
+    MANPATH=:$HOME/opt/share/man
+    LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/opt/lib
     TZ="America/New_York"
     HISTFILE=$HOME/.zhistory
     HISTSIZE=1000
@@ -133,6 +138,19 @@ setcrapimightnotneed() {
     LC_ALL='en_US.UTF-8'
     LANG='en_US.UTF-8'
     MPD_HOST=password@hostname
+    # For Princeton CVS:
+    CVS_RSH=ssh
+
+    # Mail checking?
+    mailpath=(
+    "$HOME/Mail/UMD/INBOX?You have new UMD mail."
+    "$HOME/Mail/GMail/INBOX?You have new personal mail."
+    "$HOME/Mail/Spam/INBOX?You have new spam mail."
+    )
+    MAILCHECK=30
+    export MAILPATH
+    MAILDIR=~/Mail
+
     unsetopt ALL_EXPORT
 
     # Aliases
@@ -144,7 +162,9 @@ setcrapimightnotneed() {
     alias mkdir='nocorrect mkdir '
     alias locate='nocorrect locate '
     alias gcalcli='gcalcli --width $(( $(( $COLUMNS - 8 )) / 7 )) '
+    alias gcal=gcalcli
     alias hgrep='history 1 | grep --color '
+    alias grep='grep --color=auto '
 
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
@@ -267,6 +287,17 @@ setcrapimightnotneed() {
     
     alias ct='/opt/rational/clearcase/bin/cleartool '
 
+    # Function to tell offlineimap to sync all accounts immediately.
+    offlineimapsync(){
+       #kill -s SIGUSR1 $(cat ~/.offlineimap/pid) &| cat > /dev/null
+       kill -s SIGUSR1 $(cat ~/.offlineimap/pid)
+    }
+
+    # Function to silently launch and disown a process.
+    silentdisown(){
+       $* |& cat > /dev/null &|
+    }
+
     # Function to start a master ssh session for a given list of user/host.
     sshprep(){
        for i in $*; do
@@ -293,6 +324,36 @@ setcrapimightnotneed() {
          fi
          zsh_growl_cmd=
       fi
+    }
+
+    # Function to kill a process if free memory dips below a threshold
+    lowmemkill(){
+      MINMEMFREE=$1
+      shift
+      PIDTOKILL=$1
+      while (( $(free -m | sed -n '2p' | awk '{ print $4 }') > $MINMEMFREE )); do
+         clear;
+         free -m
+         echo
+         echo "Will kill $PIDTOKILL if free memory dips below $MINMEMFREE. (^c to stop.)"
+         sleep 1
+      done
+      kill $PIDTOKILL
+    }
+
+    # Function to "workon" a remote tmux session
+    workon(){
+            WORKHOST=$1
+            shift
+            ssh -t $WORKHOST tmux at -t work-$(hostname) || ( echo "Failed to attach to 'work' session on $WORKHOST!" ; return 1 )
+            echo "Finished working on $WORKHOST."
+    }
+
+    # Function to relocate all tmux clients in a session
+    tmuxprivacy(){
+       for i in $(tmux list-clients -F'#S' | grep -v $(tmux display-message -p '#S')); do
+          tmux select-window -t $i:0
+       done
     }
 
     # Directory in which to store shortcut dirs
@@ -363,6 +424,11 @@ setcrapimightnotneed() {
        killall -USR2 zsh
     }
 
+}
+
+setupGlueICC () {
+   source /afs/glue.umd.edu/software/intel/scripts/setup_license.sh
+   source /cell_root/software/intel/scripts/current/ictvars.sh
 }
 
 setprompt () {
