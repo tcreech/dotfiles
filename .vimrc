@@ -1,3 +1,6 @@
+" set up desired colors
+set t_Co=16
+
 " set up a few basic items
 filetype plugin indent on
 syntax enable
@@ -55,5 +58,20 @@ else
    colors ron
 endif
 
-highlight Normal ctermbg=black ctermfg=gray
+" Enable syntax highlighting for LLVM IR
+augroup filetype
+   au! BufRead,BufNewFile *.ll   set filetype=llvm
+augroup END
+
+set modeline
+set modelines=5
+
+"" Enable this clang complete stuff if you have python-enabled vim, clang, and
+"" the clang_complete vim plugin installed.
+" "let g:clang_periodic_quickfix=1
+" let g:clang_complete_copen=1
+" "let g:clang_periodic_quickfix=0
+" "let g:clang_complete_copen=0
+" let g:clang_use_library=1
+" let g:clang_library_path='/tank/home/tcreech/opt/stow/clang+llvm-2.9-x86_64-linux/lib'
 
