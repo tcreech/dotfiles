@@ -112,7 +112,7 @@ setcrapimightnotneed() {
     #setopt MENUCOMPLETE            # <-- lame.
     setopt ALL_EXPORT
     setopt   notify globdots correct pushdtohome cdablevars autolist
-    setopt   correctall autocd recexact longlistjobs
+    setopt   autocd recexact longlistjobs
     setopt   autoresume histignoredups pushdsilent 
     setopt   autopushd pushdminus extendedglob rcquotes mailwarning    
     unsetopt bgnice autoparamslash
@@ -393,9 +393,18 @@ setcrapimightnotneed() {
     trm(){
             rm $DIRDIR/$1
     }
+
+    fastssh(){
+      ssh -c arcfour,blowfish-cbc -XC $*
+    }
     
     gfind(){
             for e in $*; do find . | grep $e;done | xargs
+    }
+
+    setupGlueICC () {
+      source /afs/glue.umd.edu/software/intel/scripts/setup_license.sh
+      source /cell_root/software/intel/scripts/current/ictvars.sh
     }
     
     alias gf='gfind '
@@ -423,6 +432,10 @@ setcrapimightnotneed() {
        echo "export $*" >> ~/.global_export_tmp
        killall -USR2 zsh
     }
+
+    #Re-enable emacs-style incremental searching:
+    bindkey -M viins  history-incremental-search-backward
+    bindkey -M vicmd  history-incremental-search-backward
 
 }
 
