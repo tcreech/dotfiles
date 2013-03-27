@@ -285,7 +285,12 @@ setcrapimightnotneed() {
     zle -N edit-command-line
     bindkey -M vicmd v edit-command-line
     
-    alias ct='/opt/rational/clearcase/bin/cleartool '
+    # If available, use url-quote-magic. Assumes the much older 'is-at-least'
+    # is around.
+    autoload -U is-at-least
+    if is-at-least 4.3.9; then
+      autoload -U url-quote-magic && zle -N self-insert url-quote-magic
+    fi
 
     # Function to tell offlineimap to sync all accounts immediately.
     offlineimapsync(){
