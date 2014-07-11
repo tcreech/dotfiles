@@ -1,5 +1,5 @@
 " set up desired colors
-set t_Co=16
+"set t_Co=16
 
 " set up a few basic items
 filetype plugin indent on
@@ -52,8 +52,9 @@ if version >= 700
 endif
 
 " finally, select my fav color scheme
-if has("gui")
-   colors wombat
+if has("gui_running")
+   colors hemisu
+   set guioptions-=T
 else
    colors ron
 endif
