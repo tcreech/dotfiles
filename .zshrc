@@ -346,12 +346,22 @@ setcrapimightnotneed() {
       kill $PIDTOKILL
     }
 
-    # Function to "workon" a remote tmux session
-    workon(){
-            WORKHOST=$1
-            shift
-            ssh -t $WORKHOST tmux at -t work-$(hostname) || ( echo "Failed to attach to 'work' session on $WORKHOST!" ; return 1 )
-            echo "Finished working on $WORKHOST."
+    # Function to attach to "work" tmux session. Intended to be somewhat
+    # portable. If there is a "startwork" command and the "work" session
+    # doesn't exist yet, run it. If there is no "startwork" command, just
+    # create an empty session named "work". Then, in any event, create new
+    # temporary session grouped to the "work" session and attach to it. When
+    # the called detaches or is disconnected the temporary session will be
+    # destroyed by the tmux server, with the "work" session surviving.
+    work(){
+       if ! tmux has-session -t work 2> /dev/null; then
+          if which startwork 1> /dev/null 2> /dev/null; then
+             startwork
+          else
+             tmux new -s work -d
+          fi
+       fi
+       tmux new -t work \; set destroy-unattached
     }
 
     # Function to relocate all tmux clients in a session
@@ -394,7 +404,7 @@ setcrapimightnotneed() {
             mkdir -p $DIRDIR
             ls $* $DIRDIR
     }
-    
+
     trm(){
             rm $DIRDIR/$1
     }
