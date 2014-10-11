@@ -53,7 +53,7 @@ endif
 
 " finally, select my fav color scheme
 if has("gui_running")
-   colors hemisu
+   colors rongui
    set guioptions-=T
 else
    colors ron
