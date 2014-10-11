@@ -165,8 +165,8 @@ setcrapimightnotneed() {
     alias locate='nocorrect locate '
     alias gcalcli='gcalcli --width $(( $(( $COLUMNS - 8 )) / 7 )) '
     alias gcal=gcalcli
-    alias hgrep='history 1 | grep --color '
-    alias grep='grep --color=auto '
+    alias hgrep='history 1 | grep '
+    alias grep='grep '
 
     # Set up alias for ls for some color:
     if [ `ls --color 2> /dev/null 1> /dev/null && echo true || echo false` = "true" ]; then
@@ -415,7 +415,7 @@ setcrapimightnotneed() {
             mkdir -p $DIRDIR
             ls $* $DIRDIR
     }
-
+    
     trm(){
             rm $DIRDIR/$1
     }
@@ -477,7 +477,7 @@ setprompt () {
     # let's load colors into our environment, then set them
     autoload colors
 
-    if [[ "$terminfo[colors]" -ge 8 ]]; then
+    if [[ "$terminfo[colors]" -ge 8 ]] || [[ "$termcap[colors]" -ge 8 ]]; then
         colors
     fi
 
