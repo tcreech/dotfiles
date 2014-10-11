@@ -128,16 +128,18 @@ setcrapimightnotneed() {
     # The ":" in MANPATH is important: it tells manpath (1) to prepend $MANPATH to what it generates.
     MANPATH=:$HOME/opt/share/man
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/opt/lib
+    TILERA_ROOT=/scratch/TileraMDE-4.2.1.167093/tilegx
+    PATH=$PATH:$TILERA_ROOT/bin
     TZ="America/New_York"
     HISTFILE=$HOME/.zhistory
     HISTSIZE=1000
-    SAVEHIST=1000
+    SAVEHIST=10000000000
     HOSTNAME="`hostname`"
     PAGER='less'
     EDITOR='vim'
     LC_ALL='en_US.UTF-8'
     LANG='en_US.UTF-8'
-    MPD_HOST=password@hostname
+    MPD_HOST=***REMOVED***@forte.local
     # For Princeton CVS:
     CVS_RSH=ssh
 
@@ -310,6 +312,15 @@ setcrapimightnotneed() {
        done
     }
 
+    # Function to start a master ssh session for a given list of user/host
+    # using autossh. Note that this may require an X display to get the
+    # password.
+    autosshprep(){
+       for i in $*; do
+          autossh -M 0 -f -N -o ControlMaster=auto $i || echo "WARNING: Prep for $i failed."
+       done
+    }
+
     # Function to wrap a sticky growl notification around a job
     # ("Notify When Done")
     nwd(){
@@ -362,6 +373,16 @@ setcrapimightnotneed() {
           fi
        fi
        tmux new -t work \; set destroy-unattached
+    }
+
+    # Function to "workon" a remote tmux session using autossh. Also tries to
+    # set terminal title. (Not sure if portable.)
+    autosshworkon(){
+            WORKHOST=$1
+            shift
+            xfce4-terminal-settitle $WORKHOST
+            autossh -M0 $WORKHOST -t "tmux at -t work-$(hostname)" || ( echo "Failed to attach to 'work' session on $WORKHOST!" ; return 1 )
+            echo "Finished working on $WORKHOST."
     }
 
     # Function to relocate all tmux clients in a session
