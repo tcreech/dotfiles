@@ -375,16 +375,6 @@ setcrapimightnotneed() {
        tmux new -t work \; set destroy-unattached
     }
 
-    # Function to "workon" a remote tmux session using autossh. Also tries to
-    # set terminal title. (Not sure if portable.)
-    autosshworkon(){
-            WORKHOST=$1
-            shift
-            xfce4-terminal-settitle $WORKHOST
-            autossh -M0 $WORKHOST -t "tmux at -t work-$(hostname)" || ( echo "Failed to attach to 'work' session on $WORKHOST!" ; return 1 )
-            echo "Finished working on $WORKHOST."
-    }
-
     # Function to relocate all tmux clients in a session
     tmuxprivacy(){
        for i in $(tmux list-clients -F'#S' | grep -v $(tmux display-message -p '#S')); do
