@@ -14,10 +14,10 @@ endif
 set gfn=Terminus\ Medium:h14
 
 " set up tabs (these are tailored toward RTM coding conventions)
-set tabstop=3
+set tabstop=4
 set expandtab
 " set smarttab
-set shiftwidth=3
+set shiftwidth=4
 set shiftround
 set autoindent
 
