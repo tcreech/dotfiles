@@ -125,8 +125,6 @@ setcrapimightnotneed() {
     PATH="$HOME/bin:$HOME/myStuff/bin:$HOME/opt/bin:/usr/local/bin:/usr/local/sbin:/bin:/sbin:/usr/bin:/usr/sbin:$PATH"
     PATH="$PATH:/opt/OPERA-MDE-2.1.0/bin"
     PYTHONPATH=$HOME/opt/lib/python:$PYTHONPATH:$HOME/opt/lib/python2.6/site-packages
-    # The ":" in MANPATH is important: it tells manpath (1) to prepend $MANPATH to what it generates.
-    MANPATH=:$HOME/opt/share/man
     LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HOME/opt/lib
     TILERA_ROOT=/scratch/TileraMDE-4.2.1.167093/tilegx
     PATH=$PATH:$TILERA_ROOT/bin
