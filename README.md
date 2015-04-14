@@ -2,7 +2,7 @@
 Yep.
 
 ## Installation
-Rather than having an installation script or Makefile, I've found that a really nice way to add dotfiles is to use an old but lesser-known tool called "`stow`". ([GNU Stow](https://www.gnu.org/software/stow) or [xstow](http://xstow.sourceforge.net/) are both good options.)
+Rather than having an installation script or Makefile, I've found that a really nice way to add dotfiles is to use an old but lesser-known tool called "`stow`". ([GNU Stow](https://www.gnu.org/software/stow) and [xstow](http://xstow.sourceforge.net/) are both good options.)
 
 For example:
 
