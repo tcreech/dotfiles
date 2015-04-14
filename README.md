@@ -9,8 +9,8 @@ For example:
 ```
 $ git clone git://github.com/tcreech/dotfiles ~/.dotfiles
 $ cd ~/.dotfiles
-$ stow -nv .
-$ stow -v .
+$ stow --ignore=README.md -nv .
+$ stow --ignore=README.md -v .
 ```
 Done! We now have symlinks to all our dotfiles and dot...directories set up in ~.
 
