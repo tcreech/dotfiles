@@ -54,9 +54,9 @@ setupfunctions() {
 
     # Function to relocate all tmux clients in a session
     tmuxprivacy(){
-       for i in $(tmux list-clients -F'#S' | grep -v $(tmux display-message -p '#S')); do
-          tmux select-window -t $i:0
-       done
+        for i in $(tmux list-clients -F'#S' | awk -v SELF=$(tmux display-message -p '#S') '$1 != SELF'); do
+           tmux select-window -t $i:0
+        done
     }
 
     setupGlueICC () {
