@@ -1,1 +1,1 @@
-/home/tcreech/.vimrc
+../.vimrc
