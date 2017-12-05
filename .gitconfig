@@ -18,3 +18,7 @@
    added = green
    changed = red
    untracked = cyan
+[config]
+	cleanup = whitespace
+[alias]
+    graph = "!sh -c 'git log --graph --oneline --decorate $*'"
