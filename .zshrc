@@ -16,16 +16,15 @@ setupaliases() {
 
     # Set up alias for ls for some color:
     if ls --color 2> /dev/null 1> /dev/null; then
-       # We are using GNU ls.
-       alias ls='ls --color=auto '
+       # We are using GNU ls. (Or newer FreeBSD ls.)
+       alias ls='ls --color '
     else
-       # Guess we are using BSD ls.
+       # Guess we are using BSD ls with '-G' support.
        if ls -G 2> /dev/null > /dev/null; then
           alias ls='ls -G '
        fi
     fi
 
-    alias vim='vim -X '
     alias xtest='xlogo& ; sleep 1;killall xlogo'
 }
 
@@ -131,7 +130,7 @@ setupenvironment() {
     #  mode and get vim to edit the input.
     autoload -U edit-command-line
     zle -N edit-command-line
-    bindkey -M vicmd v edit-command-line
+    bindkey -M vicmd '^X^E' edit-command-line
 
     # If available, use url-quote-magic. Assumes the much older 'is-at-least'
     # is around.
