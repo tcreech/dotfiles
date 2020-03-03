@@ -1,13 +1,14 @@
 set -o vi
 autoload -Uz compinit && compinit
 autoload -Uz colors && colors
-setopt inc_append_history share_history append_history hist_ignore_dups
+setopt share_history hist_ignore_dups
 setopt complete_in_word
-setopt auto_pushd
+setopt auto_pushd no_auto_cd no_auto_name_dirs
 setopt prompt_subst
 setopt no_bg_nice
-setopt no_auto_cd
-setopt no_auto_name_dirs
+export HISTFILE=~/.zhistory
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 
 # For GNU coreutils ls
 export LS_COLORS'di=1;34:ln=1;36:so=32:pi=33:ex=1;32:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43'
