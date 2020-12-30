@@ -38,7 +38,7 @@ function pr_hostcolor() {
 
 function work() {
     tmux has-session -t work 2> /dev/null || tmux new-session -s work -d
-    tmux new-session -t work \; set destory-unattached
+    tmux new-session -t work \; set destroy-unattached
 }
 
 PROMPT="[%B%(!.%F{red}%n.%F{blue}%n)%F{white}@%U%F{\$(pr_hostcolor)}%m%f%u:%F{\$(pr_pwdcolor)}%~%f%b]%# "
