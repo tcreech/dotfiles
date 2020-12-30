@@ -1,0 +1,5 @@
+[user]
+	name = Tim Creech
+	email = tcreech@tcreech.com
+[alias]
+	graph = log --graph --oneline --decorate
