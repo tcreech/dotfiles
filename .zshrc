@@ -41,6 +41,6 @@ function work() {
     tmux new-session -t work \; set destroy-unattached
 }
 
-PROMPT="[%B%(!.%F{red}%n.%F{blue}%n)%F{white}@%U%F{\$(pr_hostcolor)}%m%f%u:%F{\$(pr_pwdcolor)}%~%f%b]%# "
+PROMPT="[%B%(!.%F{red}%n.%F{blue}%n)%F{white}@%U%F{\$(pr_hostcolor)}%m%f%u:%F{\$(pr_pwdcolor)}%\$(( \$COLUMNS / 4 ))<...<%~%<<%f%b]%# "
 
 
