@@ -23,9 +23,6 @@ export CLICOLOR=1
 export LSCOLORS="ExGxcxdxCxegedabagacad"
 alias ll='ls -l '
 
-[[ -f /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]] && \
-	source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 function pr_pwdcolor() {
 	if [[ -w $PWD ]]; then
 		print green
