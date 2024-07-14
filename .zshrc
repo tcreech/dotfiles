@@ -46,7 +46,4 @@ function work() {
 
 PROMPT="[%B%(!.%F{red}%n.%F{blue}%n)%F{white}@%U%F{\$(pr_hostcolor)}%m%f%u:%F{\$(pr_pwdcolor)}%\$(( \$COLUMNS / 4 ))<...<%~%<<%f%b]%# "
 
-if ! builtin whence -p vim > /dev/null; then
-    alias vim=nvim
-fi
-export EDITOR=nvim
+
